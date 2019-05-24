@@ -10,12 +10,14 @@
  */
 
 /** @var \SimpleSAML\XHTML\Template $this */
-$this->data['403_header'] = $this->t('{authorize:Authorize:403_header}');
-$this->data['403_text'] = $this->t('{authorize:Authorize:403_text}');
+$translator = $this->getTranslator();
+
+$this->data['403_header'] = $translator->t('{authorize:Authorize:403_header}');
+$this->data['403_text'] = $translator->t('{authorize:Authorize:403_text}');
 
 if (array_key_exists('reject_msg', $this->data)) {
-    if (isset($this->data['reject_msg'][$this->getLanguage()])) {
-        $this->data['403_text'] = $this->data['reject_msg'][$this->getLanguage()];
+    if (isset($this->data['reject_msg'][$translator->getLanguage()])) {
+        $this->data['403_text'] = $this->data['reject_msg'][$translator->getLanguage()];
     }
 }
 $this->includeAtTemplateBase('includes/header.php');
@@ -23,7 +25,7 @@ $this->includeAtTemplateBase('includes/header.php');
 echo '<h1>'.$this->data['403_header'].'</h1>';
 echo '<p>'.$this->data['403_text'].'</p>';
 if (isset($this->data['logoutURL'])) {
-    echo '<p><a href="'.htmlspecialchars($this->data['logoutURL']).'">'.$this->t('{status:logout}').'</a></p>';
+    echo '<p><a href="'.htmlspecialchars($this->data['logoutURL']).'">'.$translator->t('{status:logout}').'</a></p>';
 }
 
 $this->includeAtTemplateBase('includes/footer.php');
