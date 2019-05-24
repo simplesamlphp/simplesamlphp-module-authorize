@@ -9,6 +9,7 @@
  * @package SimpleSAMLphp
  */
 
+/** @var \SimpleSAML\XHTML\Template $this */
 $this->data['403_header'] = $this->t('{authorize:Authorize:403_header}');
 $this->data['403_text'] = $this->t('{authorize:Authorize:403_text}');
 
