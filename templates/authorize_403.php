@@ -9,7 +9,7 @@
  * @package SimpleSAMLphp
  */
 
-/** @var \SimpleSAML\XHTML\Template $this */
+/** @psalm-suppress InvalidScope */
 $translator = $this->getTranslator();
 
 $this->data['403_header'] = $translator->t('{authorize:Authorize:403_header}');
