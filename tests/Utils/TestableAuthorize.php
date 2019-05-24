@@ -3,7 +3,7 @@
  * Subclass authorize filter to make it unit testable.
  */
 
-namespace SimpleSAML\Test\Module\authorize\Auth\Process;
+namespace SimpleSAML\Module\Authorize\Tests\Utils;
 
 use SimpleSAML\Module\authorize\Auth\Process\Authorize;
 
