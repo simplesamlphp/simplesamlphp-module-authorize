@@ -23,6 +23,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "SimpleSAML\\Module\\Authorize\\Tests\\Utils\\": "tests/Utils",
             "SimpleSAML\\Test\\Utils\\": "vendor/simplesamlphp/simplesamlphp/tests/Utils"
         }
     },

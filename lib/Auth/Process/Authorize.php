@@ -6,6 +6,7 @@ use SimpleSAML\Auth\State;
 use SimpleSAML\Module;
 use SimpleSAML\Utils\Arrays;
 use SimpleSAML\Utils\HTTP;
+use SimpleSAML\Module\Authorize\Tests\Utils;
 use Webmozart\Assert\Assert;
 
 /**
@@ -108,10 +109,10 @@ class Authorize extends \SimpleSAML\Auth\ProcessingFilter
      */
     public function process(&$request)
     {
-        $authorize = $this->deny;
         Assert::isArray($request);
         Assert::keyExists($request, 'Attributes');
 
+        $authorize = $this->deny;
         $attributes = &$request['Attributes'];
         // Store the rejection message array in the $request
         if (!empty($this->reject_msg)) {
@@ -121,10 +122,7 @@ class Authorize extends \SimpleSAML\Auth\ProcessingFilter
         foreach ($this->valid_attribute_values as $name => $patterns) {
             if (array_key_exists($name, $attributes)) {
                 foreach ($patterns as $pattern) {
-                    $values = $attributes[$name];
-                    if (!is_array($values)) {
-                        $values = [$values];
-                    }
+                    $values = Arrays::arrayize($attributes[$name]);
                     foreach ($values as $value) {
                         if ($this->regex) {
                             $matched = preg_match($pattern, $value);

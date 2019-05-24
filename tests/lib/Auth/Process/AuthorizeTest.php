@@ -3,14 +3,14 @@
  * Test for the authorize:Authorize authproc filter.
  */
 
-namespace SimpleSAML\Test\Module\authorize\Auth\Process;
+namespace SimpleSAML\Module\authorize\Auth\Process;
 
 use PHPUnit\Framework\TestCase;
+use SimpleSAML\Module\Authorize\Tests\Utils\TestableAuthorize;
 use SimpleSAML\Utils\Attributes;
 
 class AuthorizeTest extends TestCase
 {
-
     /**
      * Helper function to run the filter with a given configuration.
      *
