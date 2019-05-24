@@ -2,6 +2,10 @@
 
 namespace SimpleSAML\Module\authorize\Auth\Process;
 
+use SimpleSAML\Auth\State;
+use SimpleSAML\Module;
+use SimpleSAML\Utils\Arrays;
+use SimpleSAML\Utils\HTTP;
 use Webmozart\Assert\Assert;
 
 /**
@@ -55,36 +59,35 @@ class Authorize extends \SimpleSAML\Auth\ProcessingFilter
 
         Assert::isArray($config);
 
-        // Check for the deny option, get it and remove it
-        // Must be bool specifically, if not, it might be for a attrib filter below
+        // Check for the deny option
+        // Must be bool specifically, if not, it might be for an attrib filter below
         if (isset($config['deny']) && is_bool($config['deny'])) {
             $this->deny = $config['deny'];
-            unset($config['deny']);
         }
 
-        // Check for the regex option, get it and remove it
-        // Must be bool specifically, if not, it might be for a attrib filter below
+        // Check for the regex option
+        // Must be bool specifically, if not, it might be for an attrib filter below
         if (isset($config['regex']) && is_bool($config['regex'])) {
             $this->regex = $config['regex'];
-            unset($config['regex']);
         }
 
-        // Check for the reject_msg option, get it and remove it
-        // Must be array of languages
+        // Check for the reject_msg option; Must be array of languages
         if (isset($config['reject_msg']) && is_array($config['reject_msg'])) {
             $this->reject_msg = $config['reject_msg'];
-            unset($config['reject_msg']);
         }
+
+        // Remove all above options
+        unset($config['deny'], $config['regex'], $config['reject_msg']);
 
         foreach ($config as $attribute => $values) {
             if (is_string($values)) {
-                $values = [$values];
-            }
-            if (!is_array($values)) {
+                $values = Arrays::arrayize($values);
+            } else if (!is_array($values)) {
                 throw new \Exception(
                     'Filter Authorize: Attribute values is neither string nor array: '.var_export($attribute, true)
                 );
             }
+
             foreach ($values as $value) {
                 if (!is_string($value)) {
                     throw new \Exception(
@@ -157,8 +160,8 @@ class Authorize extends \SimpleSAML\Auth\ProcessingFilter
     protected function unauthorized(&$request)
     {
         // Save state and redirect to 403 page
-        $id = \SimpleSAML\Auth\State::saveState($request, 'authorize:Authorize');
-        $url = \SimpleSAML\Module::getModuleURL('authorize/authorize_403.php');
-        \SimpleSAML\Utils\HTTP::redirectTrustedURL($url, ['StateId' => $id]);
+        $id = State::saveState($request, 'authorize:Authorize');
+        $url = Module::getModuleURL('authorize/authorize_403.php');
+        HTTP::redirectTrustedURL($url, ['StateId' => $id]);
     }
 }
