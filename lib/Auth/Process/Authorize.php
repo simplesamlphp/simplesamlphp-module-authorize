@@ -155,7 +155,7 @@ class Authorize extends \SimpleSAML\Auth\ProcessingFilter
      * @param array $request
      * @return void
      */
-    protected function unauthorized(&$request)
+    protected function unauthorized(array &$request)
     {
         // Save state and redirect to 403 page
         $id = State::saveState($request, 'authorize:Authorize');
