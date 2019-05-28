@@ -13,7 +13,7 @@ class TestableAuthorize extends Authorize
      * Override the redirect behavior since its difficult to test
      * @param array $request the state
      */
-    protected function unauthorized(&$request)
+    protected function unauthorized(array &$request)
     {
         $request['NOT_AUTHORIZED'] = true;
     }
