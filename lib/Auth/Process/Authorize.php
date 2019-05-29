@@ -58,7 +58,7 @@ class Authorize extends \SimpleSAML\Auth\ProcessingFilter
     {
         parent::__construct($config, $reserved);
 
-        Assert::isArray($config);
+        assert(is_array($config));
 
         // Check for the deny option
         // Must be bool specifically, if not, it might be for an attrib filter below
@@ -109,8 +109,8 @@ class Authorize extends \SimpleSAML\Auth\ProcessingFilter
      */
     public function process(&$request)
     {
-        Assert::isArray($request);
-        Assert::keyExists($request, 'Attributes');
+        assert(is_array($request));
+        assert(array_key_exists('Attributes', $request));
 
         $authorize = $this->deny;
         $attributes = &$request['Attributes'];
