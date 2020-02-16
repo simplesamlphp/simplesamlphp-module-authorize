@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test for the authorize:Authorize authproc filter.
  */
@@ -18,7 +19,7 @@ class AuthorizeTest extends TestCase
      * @param array $request The request state.
      * @return array  The state array after processing.
      */
-    private function processFilter(array $config, array $request)
+    private function processFilter(array $config, array $request): array
     {
         $filter = new TestableAuthorize($config, null);
         $filter->process($request);
@@ -30,8 +31,9 @@ class AuthorizeTest extends TestCase
      * @dataProvider allowScenarioProvider
      * @param array $userAttributes The attributes to test
      * @param bool $isAuthorized Should the user be authorized
+     * @return void
      */
-    public function testAllowScenarios($userAttributes, $isAuthorized)
+    public function testAllowScenarios(array $userAttributes, bool $isAuthorized): void
     {
         $userAttributes = Attributes::normalizeAttributesArray($userAttributes);
         $config = [
@@ -48,7 +50,11 @@ class AuthorizeTest extends TestCase
         $this->assertEquals($isAuthorized, $resultAuthorized);
     }
 
-    public function allowScenarioProvider()
+
+    /**
+     * @return array
+     */
+    public function allowScenarioProvider(): array
     {
         return [
             // Should be allowed
@@ -84,8 +90,9 @@ class AuthorizeTest extends TestCase
      * @dataProvider invertScenarioProvider
      * @param array $userAttributes The attributes to test
      * @param bool $isAuthorized Should the user be authorized
+     * @return void
      */
-    public function testInvertAllowScenarios($userAttributes, $isAuthorized)
+    public function testInvertAllowScenarios(array $userAttributes, bool $isAuthorized): void
     {
         $userAttributes = Attributes::normalizeAttributesArray($userAttributes);
         $config = [
@@ -103,7 +110,11 @@ class AuthorizeTest extends TestCase
         $this->assertEquals($isAuthorized, $resultAuthorized);
     }
 
-    public function invertScenarioProvider()
+
+    /**
+     * @return array
+     */
+    public function invertScenarioProvider(): array
     {
         return [
             // Should be allowed
@@ -130,8 +141,9 @@ class AuthorizeTest extends TestCase
      * @dataProvider noregexScenarioProvider
      * @param array $userAttributes The attributes to test
      * @param bool $isAuthorized Should the user be authorized
+     * @return void
      */
-    public function testDisableRegex($userAttributes, $isAuthorized)
+    public function testDisableRegex(array $userAttributes, bool $isAuthorized): void
     {
         $userAttributes = Attributes::normalizeAttributesArray($userAttributes);
         $config = [
@@ -148,7 +160,11 @@ class AuthorizeTest extends TestCase
         $this->assertEquals($isAuthorized, $resultAuthorized);
     }
 
-    public function noregexScenarioProvider()
+
+    /**
+     * @return array
+     */
+    public function noregexScenarioProvider(): array
     {
         return [
             // Should be allowed

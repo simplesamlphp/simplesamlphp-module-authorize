@@ -5,21 +5,27 @@
  * @package SimpleSAMLphp
  */
 
-if (!array_key_exists('StateId', $_REQUEST)) {
-    throw new \SimpleSAML\Error\BadRequest('Missing required StateId query parameter.');
-}
-$state = \SimpleSAML\Auth\State::loadState($_REQUEST['StateId'], 'authorize:Authorize');
+use SimpleSAML\Auth;
+use SimpleSAML\Configuration;
+use SimpleSAML\Error;
+use SimpleSAML\Module;
+use SimpleSAML\XHTML\Template;
 
-$globalConfig = \SimpleSAML\Configuration::getInstance();
-$t = new \SimpleSAML\XHTML\Template($globalConfig, 'authorize:authorize_403.php');
+if (!array_key_exists('StateId', $_REQUEST)) {
+    throw new Error\BadRequest('Missing required StateId query parameter.');
+}
+$state = Auth\State::loadState($_REQUEST['StateId'], 'authorize:Authorize');
+
+$globalConfig = Configuration::getInstance();
+$t = new Template($globalConfig, 'authorize:authorize_403.php');
 if (isset($state['Source']['auth'])) {
-    $t->data['logoutURL'] = \SimpleSAML\Module::getModuleURL(
+    $t->data['logoutURL'] = Module::getModuleURL(
         'core/authenticate.php',
         ['as' => $state['Source']['auth']]
-    )."&logout";
+    ) . "&logout";
 }
 if (isset($state['authprocAuthorize_reject_msg'])) {
     $t->data['reject_msg'] = $state['authprocAuthorize_reject_msg'];
 }
 header('HTTP/1.0 403 Forbidden');
-$t->show();
+$t->send();

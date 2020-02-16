@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Subclass authorize filter to make it unit testable.
  */
@@ -12,8 +13,9 @@ class TestableAuthorize extends Authorize
     /**
      * Override the redirect behavior since its difficult to test
      * @param array $request the state
+     * @return void
      */
-    protected function unauthorized(array &$request)
+    protected function unauthorized(array &$request): void
     {
         $request['NOT_AUTHORIZED'] = true;
     }

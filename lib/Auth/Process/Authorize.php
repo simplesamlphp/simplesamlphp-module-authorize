@@ -2,11 +2,9 @@
 
 namespace SimpleSAML\Module\authorize\Auth\Process;
 
-use SimpleSAML\Auth\State;
+use SimpleSAML\Auth;
 use SimpleSAML\Module;
-use SimpleSAML\Utils\Arrays;
-use SimpleSAML\Utils\HTTP;
-use SimpleSAML\Module\Authorize\Tests\Utils;
+use SimpleSAML\Utils;
 use Webmozart\Assert\Assert;
 
 /**
@@ -17,7 +15,7 @@ use Webmozart\Assert\Assert;
  * @package SimpleSAMLphp
  */
 
-class Authorize extends \SimpleSAML\Auth\ProcessingFilter
+class Authorize extends Auth\ProcessingFilter
 {
     /**
      * Flag to deny/unauthorize the user a attribute filter IS found
@@ -54,11 +52,9 @@ class Authorize extends \SimpleSAML\Auth\ProcessingFilter
      * @param array $config  Configuration information about this filter.
      * @param mixed $reserved  For future use.
      */
-    public function __construct($config, $reserved)
+    public function __construct(array $config, $reserved)
     {
         parent::__construct($config, $reserved);
-
-        Assert::isArray($config);
 
         // Check for the deny option
         // Must be bool specifically, if not, it might be for an attrib filter below
@@ -82,18 +78,19 @@ class Authorize extends \SimpleSAML\Auth\ProcessingFilter
 
         foreach ($config as $attribute => $values) {
             if (is_string($values)) {
-                $values = Arrays::arrayize($values);
-            } else if (!is_array($values)) {
+                $values = Utils\Arrays::arrayize($values);
+            } elseif (!is_array($values)) {
                 throw new \Exception(
-                    'Filter Authorize: Attribute values is neither string nor array: '.var_export($attribute, true)
+                    'Filter Authorize: Attribute values is neither string nor array: ' . var_export($attribute, true)
                 );
             }
 
             foreach ($values as $value) {
                 if (!is_string($value)) {
                     throw new \Exception(
-                        'Filter Authorize: Each value should be a string for attribute: '.var_export($attribute, true).
-                            ' value: '.var_export($value, true).' Config is: '.var_export($config, true)
+                        'Filter Authorize: Each value should be a string for attribute: ' .
+                        var_export($attribute, true) . ' value: ' . var_export($value, true) .
+                        ' Config is: ' . var_export($config, true)
                     );
                 }
             }
@@ -101,15 +98,15 @@ class Authorize extends \SimpleSAML\Auth\ProcessingFilter
         }
     }
 
+
     /**
      * Apply filter to validate attributes.
      *
      * @param array &$request  The current request
      * @return void
      */
-    public function process(&$request)
+    public function process(array &$request): void
     {
-        Assert::isArray($request);
         Assert::keyExists($request, 'Attributes');
 
         $authorize = $this->deny;
@@ -122,7 +119,7 @@ class Authorize extends \SimpleSAML\Auth\ProcessingFilter
         foreach ($this->valid_attribute_values as $name => $patterns) {
             if (array_key_exists($name, $attributes)) {
                 foreach ($patterns as $pattern) {
-                    $values = Arrays::arrayize($attributes[$name]);
+                    $values = Utils\Arrays::arrayize($attributes[$name]);
                     foreach ($values as $value) {
                         if ($this->regex) {
                             $matched = preg_match($pattern, $value);
@@ -142,6 +139,7 @@ class Authorize extends \SimpleSAML\Auth\ProcessingFilter
         }
     }
 
+
     /**
      * When the process logic determines that the user is not
      * authorized for this service, then forward the user to
@@ -155,11 +153,11 @@ class Authorize extends \SimpleSAML\Auth\ProcessingFilter
      * @param array $request
      * @return void
      */
-    protected function unauthorized(array &$request)
+    protected function unauthorized(array &$request): void
     {
         // Save state and redirect to 403 page
-        $id = State::saveState($request, 'authorize:Authorize');
+        $id = Auth\State::saveState($request, 'authorize:Authorize');
         $url = Module::getModuleURL('authorize/authorize_403.php');
-        HTTP::redirectTrustedURL($url, ['StateId' => $id]);
+        Utils\HTTP::redirectTrustedURL($url, ['StateId' => $id]);
     }
 }
