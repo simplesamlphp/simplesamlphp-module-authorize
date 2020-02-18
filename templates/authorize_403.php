@@ -15,8 +15,8 @@ $this->data['403_header'] = $translator->t('{authorize:Authorize:403_header}');
 $this->data['403_text'] = $translator->t('{authorize:Authorize:403_text}');
 
 if (array_key_exists('reject_msg', $this->data)) {
-    if (isset($this->data['reject_msg'][$translator->getLanguage()])) {
-        $this->data['403_text'] = $this->data['reject_msg'][$translator->getLanguage()];
+    if (isset($this->data['reject_msg'][$translator->getLanguage()->getLanguage()])) {
+        $this->data['403_text'] = $this->data['reject_msg'][$translator->getLanguage()->getLanguage()];
     }
 }
 $this->includeAtTemplateBase('includes/header.php');
