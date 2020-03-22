@@ -3,7 +3,7 @@
     "description": "This module provides a user authorization filter based on attribute matching",
     "type": "simplesamlphp-module",
     "keywords": ["simplesamlphp", "authorize"],
-    "license": "LGPL-3.0-or-later",
+    "license": "LGPL-2.1-or-later",
     "authors": [
         {
             "name": "Ernesto Revilla",
