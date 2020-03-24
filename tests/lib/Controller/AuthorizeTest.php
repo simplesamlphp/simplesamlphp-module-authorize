@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SimpleSAML\Test\Module\authorize\Controller;
 
+use PHPUnit\Framework\TestCase;
 use SimpleSAML\Auth;
 use SimpleSAML\Configuration;
 use SimpleSAML\Error;
@@ -18,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @package SimpleSAML\Test
  */
-class AuthorizeTest extends \PHPunit\Framework\TestCase
+class AuthorizeTest extends TestCase
 {
     /** @var \SimpleSAML\Configuration */
     protected $config;
