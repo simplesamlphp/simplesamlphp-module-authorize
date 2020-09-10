@@ -11,7 +11,6 @@ use Webmozart\Assert\Assert;
  * Filter to authorize only certain users.
  * See docs directory.
  *
- * @author Ernesto Revilla, Yaco Sistemas SL., Ryan Panning
  * @package SimpleSAMLphp
  */
 
