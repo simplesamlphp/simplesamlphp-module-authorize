@@ -102,7 +102,6 @@ class Authorize extends Auth\ProcessingFilter
      * Apply filter to validate attributes.
      *
      * @param array &$request  The current request
-     * @return void
      */
     public function process(array &$request): void
     {
@@ -150,7 +149,6 @@ class Authorize extends Auth\ProcessingFilter
      * permission logic.
      *
      * @param array $request
-     * @return void
      */
     protected function unauthorized(array &$request): void
     {
