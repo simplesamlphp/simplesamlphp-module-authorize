@@ -41,6 +41,7 @@ class Authorize extends Auth\ProcessingFilter
      * Array of valid users. Each element is a regular expression. You should
      * user \ to escape special chars, like '.' etc.
      *
+     * @param array
      */
     protected $valid_attribute_values = [];
 
