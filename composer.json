@@ -28,13 +28,13 @@
         }
     },
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.4",
+        "simplesamlphp/assert": "~0.1.0",
         "simplesamlphp/simplesamlphp": "dev-master",
-        "simplesamlphp/composer-module-installer": "~1.1",
-        "webmozart/assert": "~1.4"
+        "simplesamlphp/composer-module-installer": "~1.1"
     },
     "require-dev": {
-        "simplesamlphp/simplesamlphp-test-framework": "^0.1.0"
+        "simplesamlphp/simplesamlphp-test-framework": "^1.0.0"
     },
     "support": {
         "issues": "https://github.com/simplesamlphp/simplesamlphp-module-authorize/issues",
