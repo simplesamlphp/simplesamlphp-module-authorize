@@ -1,15 +1,15 @@
 {% extends "base.twig" %}
 
 {% block content %}
-  <h1>{% trans %}{authorize:Authorize:403_header}{% endtrans %}</h1>
+  <h1>{% trans %}Access forbidden{% endtrans %}</h1>
 {% if reject_msg %}
   <p>{{ reject_msg|translateFromArray }}</p>
 {% else %}
-  <p>{% trans %}{authorize:Authorize:403_text}{% endtrans %}</p>
+  <p>{% trans %}You don't have the needed privileges to access this application. Please contact the administrator if you find this to be incorrect.{% endtrans %}</p>
 {% endif %}
   {% if logoutURL %}
   <p>
-      <a href="{{ logoutURL }}">{% trans %}{status:logout}{% endtrans %}</a>
+      <a href="{{ logoutURL }}">{% trans %}Logout{% endtrans %}</a>
   </p>
   {% endif %}
 {% endblock%}

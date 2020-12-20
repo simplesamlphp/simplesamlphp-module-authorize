@@ -15,12 +15,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
 
-msgid "{authorize:Authorize:403_text}"
-msgstr "您沒有所需的權限存取此程式，如果這不是正確的，請連絡您的系統管理員。"
-
-msgid "{authorize:Authorize:403_header}"
-msgstr "禁止存取"
-
 msgid "Access forbidden"
 msgstr "禁止存取"
 

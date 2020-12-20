@@ -31,7 +31,6 @@ class AuthorizeTest extends TestCase
      * @dataProvider allowScenarioProvider
      * @param array $userAttributes The attributes to test
      * @param bool $isAuthorized Should the user be authorized
-     * @return void
      */
     public function testAllowScenarios(array $userAttributes, bool $isAuthorized): void
     {
@@ -90,7 +89,6 @@ class AuthorizeTest extends TestCase
      * @dataProvider invertScenarioProvider
      * @param array $userAttributes The attributes to test
      * @param bool $isAuthorized Should the user be authorized
-     * @return void
      */
     public function testInvertAllowScenarios(array $userAttributes, bool $isAuthorized): void
     {
@@ -141,7 +139,6 @@ class AuthorizeTest extends TestCase
      * @dataProvider noregexScenarioProvider
      * @param array $userAttributes The attributes to test
      * @param bool $isAuthorized Should the user be authorized
-     * @return void
      */
     public function testDisableRegex(array $userAttributes, bool $isAuthorized): void
     {
