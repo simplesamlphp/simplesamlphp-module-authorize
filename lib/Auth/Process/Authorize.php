@@ -2,10 +2,10 @@
 
 namespace SimpleSAML\Module\authorize\Auth\Process;
 
+use SimpleSAML\Assert\Assert;
 use SimpleSAML\Auth;
 use SimpleSAML\Module;
 use SimpleSAML\Utils;
-use Webmozart\Assert\Assert;
 
 /**
  * Filter to authorize only certain users.
