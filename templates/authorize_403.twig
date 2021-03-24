@@ -2,12 +2,12 @@
 
 {% block content %}
   <h1>{% trans %}Access forbidden{% endtrans %}</h1>
-{% if reject_msg %}
+{% if reject_msg is defined %}
   <p>{{ reject_msg|translateFromArray }}</p>
 {% else %}
   <p>{% trans %}You don't have the needed privileges to access this application. Please contact the administrator if you find this to be incorrect.{% endtrans %}</p>
 {% endif %}
-  {% if logoutURL %}
+  {% if logoutURL is defined %}
   <p>
       <a href="{{ logoutURL }}">{% trans %}Logout{% endtrans %}</a>
   </p>
