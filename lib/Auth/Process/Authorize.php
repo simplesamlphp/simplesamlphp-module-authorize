@@ -78,7 +78,8 @@ class Authorize extends Auth\ProcessingFilter
 
         foreach ($config as $attribute => $values) {
             if (is_string($values)) {
-                $values = Utils\Arrays::arrayize($values);
+                $arrayUtils = new Utils\Arrays();
+                $values = $arrayUtils->arrayize($values);
             } elseif (!is_array($values)) {
                 throw new \Exception(
                     'Filter Authorize: Attribute values is neither string nor array: ' . var_export($attribute, true)
@@ -115,10 +116,11 @@ class Authorize extends Auth\ProcessingFilter
             $request['authprocAuthorize_reject_msg'] = $this->reject_msg;
         }
 
+        $arrayUtils = new Utils\Arrays();
         foreach ($this->valid_attribute_values as $name => $patterns) {
             if (array_key_exists($name, $attributes)) {
                 foreach ($patterns as $pattern) {
-                    $values = Utils\Arrays::arrayize($attributes[$name]);
+                    $values = $arrayUtils->arrayize($attributes[$name]);
                     foreach ($values as $value) {
                         if ($this->regex) {
                             $matched = preg_match($pattern, $value);
@@ -156,6 +158,7 @@ class Authorize extends Auth\ProcessingFilter
         // Save state and redirect to 403 page
         $id = Auth\State::saveState($request, 'authorize:Authorize');
         $url = Module::getModuleURL('authorize/authorize_403.php');
-        Utils\HTTP::redirectTrustedURL($url, ['StateId' => $id]);
+        $httpUtils = new Utils\HTTP();
+        $httpUtils->redirectTrustedURL($url, ['StateId' => $id]);
     }
 }

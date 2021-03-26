@@ -8,7 +8,7 @@ namespace SimpleSAML\Module\authorize\Auth\Process;
 
 use PHPUnit\Framework\TestCase;
 use SimpleSAML\Module\Authorize\Tests\Utils\TestableAuthorize;
-use SimpleSAML\Utils\Attributes;
+use SimpleSAML\Utils;
 
 class AuthorizeTest extends TestCase
 {
@@ -34,7 +34,8 @@ class AuthorizeTest extends TestCase
      */
     public function testAllowScenarios(array $userAttributes, bool $isAuthorized): void
     {
-        $userAttributes = Attributes::normalizeAttributesArray($userAttributes);
+        $attributeUtils = new Utils\Attributes();
+        $userAttributes = $attributeUtils->normalizeAttributesArray($userAttributes);
         $config = [
             'uid' => [
                 '/^.*@example.com$/',
@@ -92,7 +93,8 @@ class AuthorizeTest extends TestCase
      */
     public function testInvertAllowScenarios(array $userAttributes, bool $isAuthorized): void
     {
-        $userAttributes = Attributes::normalizeAttributesArray($userAttributes);
+        $attributeUtils = new Utils\Attributes();
+        $userAttributes = $attributeUtils->normalizeAttributesArray($userAttributes);
         $config = [
             'deny' => true,
             'uid' => [
@@ -142,7 +144,8 @@ class AuthorizeTest extends TestCase
      */
     public function testDisableRegex(array $userAttributes, bool $isAuthorized): void
     {
-        $userAttributes = Attributes::normalizeAttributesArray($userAttributes);
+        $attributeUtils = new Utils\Attributes();
+        $userAttributes = $attributeUtils->normalizeAttributesArray($userAttributes);
         $config = [
             'regex' => false,
             'group' => [
