@@ -23,10 +23,10 @@ use Symfony\Component\HttpFoundation\Request;
 class Authorize
 {
     /** @var \SimpleSAML\Configuration */
-    protected $config;
+    protected Configuration $config;
 
     /** @var \SimpleSAML\Session */
-    protected $session;
+    protected Session $session;
 
 
     /**

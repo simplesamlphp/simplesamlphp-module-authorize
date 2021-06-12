@@ -22,10 +22,10 @@ use Symfony\Component\HttpFoundation\Request;
 class AuthorizeTest extends TestCase
 {
     /** @var \SimpleSAML\Configuration */
-    protected $config;
+    protected Configuration $config;
 
     /** @var string */
-    protected $stateId;
+    protected string $stateId;
 
 
     /**

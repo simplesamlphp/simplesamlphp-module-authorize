@@ -21,21 +21,21 @@ class Authorize extends Auth\ProcessingFilter
      *
      * @var bool
      */
-    protected $deny = false;
+    protected bool $deny = false;
 
     /**
      * Flag to turn the REGEX pattern matching on or off
      *
      * @var bool
      */
-    protected $regex = true;
+    protected bool $regex = true;
 
     /**
      * Array of localised rejection messages
      *
      * @var array
      */
-    protected $reject_msg = [];
+    protected array $reject_msg = [];
 
     /**
      * Array of valid users. Each element is a regular expression. You should
@@ -43,7 +43,7 @@ class Authorize extends Auth\ProcessingFilter
      *
      * @param array
      */
-    protected $valid_attribute_values = [];
+    protected array $valid_attribute_values = [];
 
     /**
      * Initialize this filter.
