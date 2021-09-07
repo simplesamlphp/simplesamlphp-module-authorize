@@ -157,7 +157,7 @@ class Authorize extends Auth\ProcessingFilter
     {
         // Save state and redirect to 403 page
         $id = Auth\State::saveState($request, 'authorize:Authorize');
-        $url = Module::getModuleURL('authorize/authorize_403.php');
+        $url = Module::getModuleURL('authorize/error/forbidden');
         $httpUtils = new Utils\HTTP();
         $httpUtils->redirectTrustedURL($url, ['StateId' => $id]);
     }
