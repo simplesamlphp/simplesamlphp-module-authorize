@@ -67,7 +67,7 @@ class Authorize
         $t = new Template($this->config, 'authorize:authorize_403.twig');
         if (isset($state['Source']['auth'])) {
             $t->data['logoutURL'] = Module::getModuleURL(
-                'core/logout/' . urlencode($state['Source']['auth']]),
+                'core/logout/' . urlencode($state['Source']['auth']),
             );
         }
         if (isset($state['authprocAuthorize_reject_msg'])) {
