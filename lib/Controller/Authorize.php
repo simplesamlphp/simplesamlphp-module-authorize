@@ -56,7 +56,7 @@ class Authorize
      */
     public function forbidden(Request $request): Template
     {
-        $stateId = $request->get('StateId', false);
+        $stateId = $request->query->get('StateId', false);
         if ($stateId === false) {
             throw new Error\BadRequest('Missing required StateId query parameter.');
         }
