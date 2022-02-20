@@ -9,7 +9,7 @@
 {% endif %}
   {% if logoutURL is defined %}
   <p>
-      <a href="{{ logoutURL }}">{% trans %}Logout{% endtrans %}</a>
+      <a href="{{ moduleURL('core/logout/' ~ source|url_encode) }}">{% trans %}Logout{% endtrans %}</a>
   </p>
   {% endif %}
 {% endblock%}
