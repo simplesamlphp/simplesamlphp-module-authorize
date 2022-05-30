@@ -22,7 +22,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: composer:v2
-          extensions: ldap, mbstring, xml
+          extensions: intl, ldap, mbstring, xml
           coverage: pcov
 
       - name: Setup problem matchers for PHP
@@ -84,7 +84,7 @@ jobs:
         with:
             php-version: '7.4'
             tools: composer:v2
-            extensions: ldap, mbstring, xml
+            extensions: intl, ldap, mbstring, xml
             coverage: none
 
       - name: Setup problem matchers for PHP
@@ -125,7 +125,7 @@ jobs:
         with:
           php-version: '7.4'
           tools: composer:v2
-          extensions: ldap, mbstring, xml
+          extensions: intl, ldap, mbstring, xml
           coverage: none
 
       - name: Setup problem matchers for PHP
@@ -164,7 +164,7 @@ jobs:
         with:
           php-version: '7.4'
           tools: composer:v2
-          extensions: ldap, mbstring, xml
+          extensions: intl, ldap, mbstring, xml
 
       - name: Setup problem matchers for PHP
         run: echo "::add-matcher::${{ runner.tool_cache }}/php.json"
