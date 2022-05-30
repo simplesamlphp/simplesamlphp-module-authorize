@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SimpleSAML\\Module\\authorize\\": "lib/"
+            "SimpleSAML\\Module\\authorize\\": "src/"
         }
     },
     "autoload-dev": {
@@ -33,12 +33,12 @@
     },
     "require": {
         "php": ">=7.4 || ^8.0",
-        "simplesamlphp/assert": "~0.2.7",
-        "simplesamlphp/simplesamlphp": "^2.0.0-beta.1",
+        "simplesamlphp/assert": "~0.2.13",
+        "simplesamlphp/simplesamlphp": "^2.0.0-beta.10",
         "simplesamlphp/composer-module-installer": "~1.1"
     },
     "require-dev": {
-        "simplesamlphp/simplesamlphp-test-framework": "^1.1.4"
+        "simplesamlphp/simplesamlphp-test-framework": "^1.2.1"
     },
     "support": {
         "issues": "https://github.com/simplesamlphp/simplesamlphp-module-authorize/issues",
