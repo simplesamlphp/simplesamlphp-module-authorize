@@ -3,7 +3,7 @@
 {% block content %}
   <h1>{% trans %}Access forbidden{% endtrans %}</h1>
 {% if reject_msg is defined %}
-  <p>{{ reject_msg|translateFromArray }}</p>
+  <p>{{ reject_msg|translateFromArray|raw }}</p>
 {% else %}
   <p>{% trans %}You don't have the needed privileges to access this application. Please contact the administrator if you find this to be incorrect.{% endtrans %}</p>
 {% endif %}
