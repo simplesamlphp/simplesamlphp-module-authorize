@@ -1,3 +1,7 @@
+---
+
 authorize-error-forbidden:
-    path:       /error/forbidden
-    defaults:   { _controller: 'SimpleSAML\Module\authorize\Controller\Authorize::forbidden' }
+  path: /error/forbidden
+  defaults: {
+    _controller: 'SimpleSAML\Module\authorize\Controller\Authorize::forbidden'
+  }
