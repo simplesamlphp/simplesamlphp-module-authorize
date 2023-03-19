@@ -1,6 +1,6 @@
 {
   "symbol-whitelist": [
-    "SimpleSAML\\Auth\ProcessingFilter",
+    "SimpleSAML\\Auth\\ProcessingFilter",
     "SimpleSAML\\Auth\\State",
     "SimpleSAML\\Configuration",
     "SimpleSAML\\Error\\BadRequest",
