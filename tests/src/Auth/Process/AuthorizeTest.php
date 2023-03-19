@@ -56,7 +56,7 @@ class AuthorizeTest extends TestCase
     /**
      * @return array
      */
-    public function allowScenarioProvider(): array
+    public static function allowScenarioProvider(): array
     {
         return [
             // Should be allowed
@@ -71,7 +71,7 @@ class AuthorizeTest extends TestCase
                 true
             ],
 
-            //Should be denied
+            // Should be denied
             [['wrongAttributes' => ['abc']], false],
             [
                 [
@@ -116,7 +116,7 @@ class AuthorizeTest extends TestCase
     /**
      * @return array
      */
-    public function invertScenarioProvider(): array
+    public static function invertScenarioProvider(): array
     {
         return [
             // Should be allowed
@@ -166,7 +166,7 @@ class AuthorizeTest extends TestCase
     /**
      * @return array
      */
-    public function noregexScenarioProvider(): array
+    public static function noregexScenarioProvider(): array
     {
         return [
             // Should be allowed
