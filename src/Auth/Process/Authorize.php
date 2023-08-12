@@ -105,17 +105,17 @@ class Authorize extends Auth\ProcessingFilter
     /**
      * Apply filter to validate attributes.
      *
-     * @param array &$request  The current request
+     * @param array &$state  The current request
      */
-    public function process(array &$request): void
+    public function process(array &$state): void
     {
-        Assert::keyExists($request, 'Attributes');
+        Assert::keyExists($state, 'Attributes');
 
         $authorize = $this->deny;
-        $attributes = &$request['Attributes'];
-        // Store the rejection message array in the $request
+        $attributes = &$state['Attributes'];
+        // Store the rejection message array in the $state
         if (!empty($this->reject_msg)) {
-            $request['authprocAuthorize_reject_msg'] = $this->reject_msg;
+            $state['authprocAuthorize_reject_msg'] = $this->reject_msg;
         }
 
         $arrayUtils = new Utils\Arrays();
@@ -138,7 +138,7 @@ class Authorize extends Auth\ProcessingFilter
             }
         }
         if (!$authorize) {
-            $this->unauthorized($request);
+            $this->unauthorized($state);
         }
     }
 
@@ -153,12 +153,12 @@ class Authorize extends Auth\ProcessingFilter
      * thinking in case a "chained" ACL is needed, more complex
      * permission logic.
      *
-     * @param array $request
+     * @param array $state
      */
-    protected function unauthorized(array &$request): void
+    protected function unauthorized(array &$state): void
     {
         // Save state and redirect to 403 page
-        $id = Auth\State::saveState($request, 'authorize:Authorize');
+        $id = Auth\State::saveState($state, 'authorize:Authorize');
         $url = Module::getModuleURL('authorize/error/forbidden');
         $httpUtils = new Utils\HTTP();
         $httpUtils->redirectTrustedURL($url, ['StateId' => $id]);
