@@ -78,6 +78,28 @@ class Authorize
             );
         }
 
+        if (
+            isset($state['authprocAuthorize_errorURL'])
+            && $state['authprocAuthorize_errorURL'] === true
+            && isset($state['Source']['errorURL'])
+        ) {
+            $errorURL = $state['Source']['errorURL'];
+            $errorURL = str_replace('ERRORURL_CODE', 'AUTHORIZATION_FAILURE', $errorURL);
+            if (isset($state['saml:sp:State']['core:SP'])) {
+                $errorURL = str_replace('ERRORURL_RP', urlencode($state['saml:sp:State']['core:SP']), $errorURL);
+            }
+            if (isset($state['saml:AuthnInstant'])) {
+                $errorURL = str_replace('ERRORURL_TS', $state['saml:AuthnInstant'], $errorURL);
+            } else {
+                $errorURL = str_replace('ERRORURL_TS', strval(time()), $errorURL);
+            }
+            $errorURL = str_replace('ERRORURL_TID', urlencode($this->session->getTrackID()), $errorURL);
+            if (isset($state['authprocAuthorize_ctx'])) {
+                $errorURL = str_replace('ERRORURL_CTX', urlencode($state['authprocAuthorize_ctx']), $errorURL);
+            }
+            $t->data['errorURL'] = $errorURL;
+        }
+
         $t->setStatusCode(403);
         return $t;
     }

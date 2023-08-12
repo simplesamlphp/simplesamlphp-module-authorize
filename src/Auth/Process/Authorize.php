@@ -40,6 +40,13 @@ class Authorize extends Auth\ProcessingFilter
     protected array $reject_msg = [];
 
     /**
+     * Flag to toggle generation of errorURL
+     *
+     * @var bool
+     */
+    protected bool $errorURL = true;
+
+    /**
      * Array of valid users. Each element is a regular expression. You should
      * user \ to escape special chars, like '.' etc.
      *
@@ -78,6 +85,13 @@ class Authorize extends Auth\ProcessingFilter
             unset($config['reject_msg']);
         }
 
+        // Check for the errorURL option
+        // Must be bool specifically, if not, it might be for an attrib filter below
+        if (isset($config['errorURL']) && is_bool($config['errorURL'])) {
+            $this->errorURL = $config['errorURL'];
+            unset($config['errorURL']);
+        }
+
         foreach ($config as $attribute => $values) {
             if (is_string($values)) {
                 $arrayUtils = new Utils\Arrays();
@@ -113,10 +127,12 @@ class Authorize extends Auth\ProcessingFilter
 
         $authorize = $this->deny;
         $attributes = &$state['Attributes'];
+        $ctx = [];
         // Store the rejection message array in the $state
         if (!empty($this->reject_msg)) {
             $state['authprocAuthorize_reject_msg'] = $this->reject_msg;
         }
+        $state['authprocAuthorize_errorURL'] = $this->errorURL;
 
         $arrayUtils = new Utils\Arrays();
         foreach ($this->valid_attribute_values as $name => $patterns) {
@@ -131,6 +147,7 @@ class Authorize extends Auth\ProcessingFilter
                         }
                         if ($matched) {
                             $authorize = ($this->deny ? false : true);
+                            array_push($ctx, $name);
                             break 3;
                         }
                     }
@@ -138,6 +155,12 @@ class Authorize extends Auth\ProcessingFilter
             }
         }
         if (!$authorize) {
+            // Try to hint at which attributes may have failed as context for errorURL processing
+            if ($this->deny) {
+                $state['authprocAuthorize_ctx'] = implode(' ', $ctx);
+            } else {
+                $state['authprocAuthorize_ctx'] = implode(' ', array_diff(array_keys($this->valid_attribute_values), $ctx));
+            }
             $this->unauthorized($state);
         }
     }

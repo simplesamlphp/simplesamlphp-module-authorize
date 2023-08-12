@@ -48,7 +48,9 @@ class AuthorizeTest extends TestCase
         $state = [
             'StateId' => 'SomeState',
             'Source' => ['auth' => 'test'],
-            'authprocAuthorize_reject_msg' => 'Test Rejected'
+            'authprocAuthorize_reject_msg' => 'Test Rejected',
+            'authprocAuthorize_error_url' => true,
+            'authprocAuthorize_ctx' => 'example',
         ];
         $this->stateId = Auth\State::saveState($state, 'authorize:Authorize');
 
