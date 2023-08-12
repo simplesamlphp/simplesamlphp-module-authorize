@@ -72,6 +72,12 @@ class Authorize
             $t->data['reject_msg'] = $state['authprocAuthorize_reject_msg'];
         }
 
+        if (isset($state['Source']['auth'])) {
+            $t->data['LogoutURL'] = Module::getModuleURL(
+                'saml/sp/login/' . urlencode($state['Source']['auth'])
+            );
+        }
+
         $t->setStatusCode(403);
         return $t;
     }
