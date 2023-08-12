@@ -46,6 +46,15 @@ authorisation issue, specific contact details, etc.
 It should be an array of key/value pairs, with the keys as the language code.
 You can use HTML in the message. See below for an example.
 
+### `errorURL`
+
+If the identity provider includes an `errorURL` in metadata, this option turns
+on or off the generation of a context-specific errorURL in accordance with the
+REFEDS SAML2 Metadata Deployment Profile for errorURL. Defaults to TRUE.
+
+**Note**: This option needs to be boolean (TRUE/FALSE) else it will be
+          considered an attribute matching rule.
+
 ## Attribute Rules
 
 Each additional filter configuration option is considered an attribute matching

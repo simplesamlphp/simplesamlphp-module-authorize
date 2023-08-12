@@ -40,6 +40,13 @@ class Authorize extends Auth\ProcessingFilter
     protected array $reject_msg = [];
 
     /**
+     * Flag to toggle generation of errorURL
+     *
+     * @var bool
+     */
+    protected bool $errorURL = true;
+
+    /**
      * Array of valid users. Each element is a regular expression. You should
      * user \ to escape special chars, like '.' etc.
      *
@@ -62,21 +69,28 @@ class Authorize extends Auth\ProcessingFilter
         // Must be bool specifically, if not, it might be for an attrib filter below
         if (isset($config['deny']) && is_bool($config['deny'])) {
             $this->deny = $config['deny'];
+            unset($config['deny']);
         }
 
         // Check for the regex option
         // Must be bool specifically, if not, it might be for an attrib filter below
         if (isset($config['regex']) && is_bool($config['regex'])) {
             $this->regex = $config['regex'];
+            unset($config['regex']);
         }
 
         // Check for the reject_msg option; Must be array of languages
         if (isset($config['reject_msg']) && is_array($config['reject_msg'])) {
             $this->reject_msg = $config['reject_msg'];
+            unset($config['reject_msg']);
         }
 
-        // Remove all above options
-        unset($config['deny'], $config['regex'], $config['reject_msg']);
+        // Check for the errorURL option
+        // Must be bool specifically, if not, it might be for an attrib filter below
+        if (isset($config['errorURL']) && is_bool($config['errorURL'])) {
+            $this->errorURL = $config['errorURL'];
+            unset($config['errorURL']);
+        }
 
         foreach ($config as $attribute => $values) {
             if (is_string($values)) {
@@ -105,18 +119,20 @@ class Authorize extends Auth\ProcessingFilter
     /**
      * Apply filter to validate attributes.
      *
-     * @param array &$request  The current request
+     * @param array &$state  The current request
      */
-    public function process(array &$request): void
+    public function process(array &$state): void
     {
-        Assert::keyExists($request, 'Attributes');
+        Assert::keyExists($state, 'Attributes');
 
         $authorize = $this->deny;
-        $attributes = &$request['Attributes'];
-        // Store the rejection message array in the $request
+        $attributes = &$state['Attributes'];
+        $ctx = [];
+        // Store the rejection message array in the $state
         if (!empty($this->reject_msg)) {
-            $request['authprocAuthorize_reject_msg'] = $this->reject_msg;
+            $state['authprocAuthorize_reject_msg'] = $this->reject_msg;
         }
+        $state['authprocAuthorize_errorURL'] = $this->errorURL;
 
         $arrayUtils = new Utils\Arrays();
         foreach ($this->valid_attribute_values as $name => $patterns) {
@@ -131,6 +147,7 @@ class Authorize extends Auth\ProcessingFilter
                         }
                         if ($matched) {
                             $authorize = ($this->deny ? false : true);
+                            array_push($ctx, $name);
                             break 3;
                         }
                     }
@@ -138,7 +155,13 @@ class Authorize extends Auth\ProcessingFilter
             }
         }
         if (!$authorize) {
-            $this->unauthorized($request);
+            // Try to hint at which attributes may have failed as context for errorURL processing
+            if ($this->deny) {
+                $state['authprocAuthorize_ctx'] = implode(' ', $ctx);
+            } else {
+                $state['authprocAuthorize_ctx'] = implode(' ', array_diff(array_keys($this->valid_attribute_values), $ctx));
+            }
+            $this->unauthorized($state);
         }
     }
 
@@ -153,12 +176,12 @@ class Authorize extends Auth\ProcessingFilter
      * thinking in case a "chained" ACL is needed, more complex
      * permission logic.
      *
-     * @param array $request
+     * @param array $state
      */
-    protected function unauthorized(array &$request): void
+    protected function unauthorized(array &$state): void
     {
         // Save state and redirect to 403 page
-        $id = Auth\State::saveState($request, 'authorize:Authorize');
+        $id = Auth\State::saveState($state, 'authorize:Authorize');
         $url = Module::getModuleURL('authorize/error/forbidden');
         $httpUtils = new Utils\HTTP();
         $httpUtils->redirectTrustedURL($url, ['StateId' => $id]);
