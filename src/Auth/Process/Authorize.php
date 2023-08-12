@@ -62,21 +62,21 @@ class Authorize extends Auth\ProcessingFilter
         // Must be bool specifically, if not, it might be for an attrib filter below
         if (isset($config['deny']) && is_bool($config['deny'])) {
             $this->deny = $config['deny'];
+            unset($config['deny']);
         }
 
         // Check for the regex option
         // Must be bool specifically, if not, it might be for an attrib filter below
         if (isset($config['regex']) && is_bool($config['regex'])) {
             $this->regex = $config['regex'];
+            unset($config['regex']);
         }
 
         // Check for the reject_msg option; Must be array of languages
         if (isset($config['reject_msg']) && is_array($config['reject_msg'])) {
             $this->reject_msg = $config['reject_msg'];
+            unset($config['reject_msg']);
         }
-
-        // Remove all above options
-        unset($config['deny'], $config['regex'], $config['reject_msg']);
 
         foreach ($config as $attribute => $values) {
             if (is_string($values)) {
