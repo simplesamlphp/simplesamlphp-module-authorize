@@ -5,3 +5,4 @@ authorize-error-forbidden:
   defaults: {
     _controller: 'SimpleSAML\Module\authorize\Controller\Authorize::forbidden'
   }
+  methods: [GET]
