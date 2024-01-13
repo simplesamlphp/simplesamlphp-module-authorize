@@ -159,7 +159,10 @@ class Authorize extends Auth\ProcessingFilter
             if ($this->deny) {
                 $state['authprocAuthorize_ctx'] = implode(' ', $ctx);
             } else {
-                $state['authprocAuthorize_ctx'] = implode(' ', array_diff(array_keys($this->valid_attribute_values), $ctx));
+                $state['authprocAuthorize_ctx'] = implode(
+                    ' ',
+                    array_diff(array_keys($this->valid_attribute_values), $ctx),
+                );
             }
             $this->unauthorized($state);
         }

@@ -17,7 +17,8 @@
         },
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
-            "simplesamlphp/composer-module-installer": true
+            "simplesamlphp/composer-module-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "autoload": {
@@ -34,7 +35,7 @@
     "require": {
         "php": "^8.1",
         "simplesamlphp/assert": "^1.0",
-        "simplesamlphp/simplesamlphp": "^3@dev",
+        "simplesamlphp/simplesamlphp": "^2.1",
         "symfony/http-foundation": "^6.4"
     },
     "require-dev": {

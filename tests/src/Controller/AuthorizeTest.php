@@ -11,7 +11,6 @@ use SimpleSAML\Error;
 use SimpleSAML\Module\authorize\Controller;
 use SimpleSAML\Session;
 use SimpleSAML\XHTML\Template;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
