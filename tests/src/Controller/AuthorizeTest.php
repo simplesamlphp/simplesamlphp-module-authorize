@@ -20,10 +20,10 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class AuthorizeTest extends TestCase
 {
-    /** @var \SimpleSAML\Configuration */
+    /** @psalm-suppress PropertyNotSetInConstructor */
     protected Configuration $config;
 
-    /** @var string */
+    /** @psalm-suppress PropertyNotSetInConstructor */
     protected string $stateId;
 
 
