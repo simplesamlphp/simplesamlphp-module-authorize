@@ -107,7 +107,6 @@ class AuthorizeTest extends TestCase
         ];
 
         $resultState = $this->processFilter($config, ['Attributes' => $userAttributes]);
-
         $resultAuthorized = isset($resultState['NOT_AUTHORIZED']) ? false : true;
         $this->assertEquals($isAuthorized, $resultAuthorized);
     }
@@ -123,10 +122,11 @@ class AuthorizeTest extends TestCase
             [['noMatch' => 'abc'], true],
             [['uid' => 'anything@example.edu'], true],
 
-            //Should be denied
+            // Should be denied
             [['uid' => 'anything@students.example.edu'], false],
             [['uid' => 'stu3@example.edu'], false],
             [['schacUserStatus' => 'urn:mace:terena.org:userStatus:example.org:service:blocked'], false],
+
             // Matching any of the attributes results in denial
             [
                 [

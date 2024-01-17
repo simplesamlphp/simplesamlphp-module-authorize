@@ -4,10 +4,22 @@ declare(strict_types=1);
 
 namespace SimpleSAML\Module\authorize\Auth\Process;
 
+use Exception;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\Auth;
 use SimpleSAML\Module;
 use SimpleSAML\Utils;
+
+use function array_diff;
+use function array_key_exists;
+use function array_keys;
+use function array_push;
+use function implode;
+use function is_array;
+use function is_bool;
+use function is_string;
+use function preg_match;
+use function var_export;
 
 /**
  * Filter to authorize only certain users.
@@ -97,14 +109,14 @@ class Authorize extends Auth\ProcessingFilter
                 $arrayUtils = new Utils\Arrays();
                 $values = $arrayUtils->arrayize($values);
             } elseif (!is_array($values)) {
-                throw new \Exception(
+                throw new Exception(
                     'Filter Authorize: Attribute values is neither string nor array: ' . var_export($attribute, true)
                 );
             }
 
             foreach ($values as $value) {
                 if (!is_string($value)) {
-                    throw new \Exception(
+                    throw new Exception(
                         'Filter Authorize: Each value should be a string for attribute: ' .
                         var_export($attribute, true) . ' value: ' . var_export($value, true) .
                         ' Config is: ' . var_export($config, true)
@@ -128,6 +140,7 @@ class Authorize extends Auth\ProcessingFilter
         $authorize = $this->deny;
         $attributes = &$state['Attributes'];
         $ctx = [];
+
         // Store the rejection message array in the $state
         if (!empty($this->reject_msg)) {
             $state['authprocAuthorize_reject_msg'] = $this->reject_msg;
@@ -143,8 +156,9 @@ class Authorize extends Auth\ProcessingFilter
                         if ($this->regex) {
                             $matched = preg_match($pattern, $value);
                         } else {
-                            $matched = ($value == $pattern);
+                            $matched = ($value === $pattern);
                         }
+
                         if ($matched) {
                             $authorize = ($this->deny ? false : true);
                             array_push($ctx, $name);
@@ -154,6 +168,7 @@ class Authorize extends Auth\ProcessingFilter
                 }
             }
         }
+
         if (!$authorize) {
             // Try to hint at which attributes may have failed as context for errorURL processing
             if ($this->deny) {
