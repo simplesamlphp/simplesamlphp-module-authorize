@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace SimpleSAML\Module\authorize\Auth\Process;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SimpleSAML\Module\Authorize\Tests\Utils\TestableAuthorize;
 use SimpleSAML\Utils;
@@ -30,10 +31,11 @@ class AuthorizeTest extends TestCase
 
     /**
      * Test that having a matching attribute grants access
-     * @dataProvider allowScenarioProvider
+     *
      * @param array $userAttributes The attributes to test
      * @param bool $isAuthorized Should the user be authorized
      */
+    #[DataProvider('allowScenarioProvider')]
     public function testAllowScenarios(array $userAttributes, bool $isAuthorized): void
     {
         $attributeUtils = new Utils\Attributes();
@@ -89,10 +91,11 @@ class AuthorizeTest extends TestCase
 
     /**
      * Test that having a matching attribute prevents access
-     * @dataProvider invertScenarioProvider
+     *
      * @param array $userAttributes The attributes to test
      * @param bool $isAuthorized Should the user be authorized
      */
+    #[DataProvider('invertScenarioProvider')]
     public function testInvertAllowScenarios(array $userAttributes, bool $isAuthorized): void
     {
         $attributeUtils = new Utils\Attributes();
@@ -140,10 +143,11 @@ class AuthorizeTest extends TestCase
 
     /**
      * Test that having a matching attribute prevents access
-     * @dataProvider noregexScenarioProvider
+     *
      * @param array $userAttributes The attributes to test
      * @param bool $isAuthorized Should the user be authorized
      */
+    #[DataProvider('noregexScenarioProvider')]
     public function testDisableRegex(array $userAttributes, bool $isAuthorized): void
     {
         $attributeUtils = new Utils\Attributes();
