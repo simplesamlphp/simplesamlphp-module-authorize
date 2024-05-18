@@ -68,9 +68,9 @@ class AuthorizeTest extends TestCase
             [
                 [
                     'uid' => ['wrongValue', 'user2@example.edu', 'wrongValue2'],
-                    'schacUserStatus' => 'incorrectstatus'
+                    'schacUserStatus' => 'incorrectstatus',
                 ],
-                true
+                true,
             ],
 
             // Should be denied
@@ -81,10 +81,10 @@ class AuthorizeTest extends TestCase
                         'anything@example.com.wrong',
                         'wronguser@example.edu',
                         'user2@example.edu.wrong',
-                        'prefixuser2@example.edu'
-                    ]
-                ],
-                false
+                        'prefixuser2@example.edu',
+                    ],
+                ],,
+                false,
             ],
         ];
     }
@@ -134,9 +134,9 @@ class AuthorizeTest extends TestCase
             [
                 [
                     'uid' => ['noMatch', 'abc@students.example.edu', 'noMatch2'],
-                    'schacUserStatus' => 'noMatch'
+                    'schacUserStatus' => 'noMatch',
                 ],
-                false
+                false,
             ],
         ];
     }
