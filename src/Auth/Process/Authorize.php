@@ -9,6 +9,8 @@ use SimpleSAML\Auth;
 use SimpleSAML\Module;
 use SimpleSAML\Utils;
 
+use function implode;
+
 /**
  * Filter to authorize only certain users.
  * See docs directory.
@@ -98,7 +100,7 @@ class Authorize extends Auth\ProcessingFilter
                 $values = $arrayUtils->arrayize($values);
             } elseif (!is_array($values)) {
                 throw new \Exception(
-                    'Filter Authorize: Attribute values is neither string nor array: ' . var_export($attribute, true)
+                    'Filter Authorize: Attribute values is neither string nor array: ' . var_export($attribute, true),
                 );
             }
 
@@ -107,7 +109,7 @@ class Authorize extends Auth\ProcessingFilter
                     throw new \Exception(
                         'Filter Authorize: Each value should be a string for attribute: ' .
                         var_export($attribute, true) . ' value: ' . var_export($value, true) .
-                        ' Config is: ' . var_export($config, true)
+                        ' Config is: ' . var_export($config, true),
                     );
                 }
             }
@@ -159,7 +161,10 @@ class Authorize extends Auth\ProcessingFilter
             if ($this->deny) {
                 $state['authprocAuthorize_ctx'] = implode(' ', $ctx);
             } else {
-                $state['authprocAuthorize_ctx'] = implode(' ', array_diff(array_keys($this->valid_attribute_values), $ctx));
+                $state['authprocAuthorize_ctx'] = implode(
+                    ' ',
+                    array_diff(array_keys($this->valid_attribute_values), $ctx),
+                );
             }
             $this->unauthorized($state);
         }

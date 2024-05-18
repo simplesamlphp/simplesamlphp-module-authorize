@@ -5,13 +5,9 @@ declare(strict_types=1);
 namespace SimpleSAML\Test\Module\authorize\Controller;
 
 use PHPUnit\Framework\TestCase;
-use SimpleSAML\Auth;
-use SimpleSAML\Configuration;
-use SimpleSAML\Error;
+use SimpleSAML\{Auth, Configuration, Error, Session};
 use SimpleSAML\Module\authorize\Controller;
-use SimpleSAML\Session;
 use SimpleSAML\XHTML\Template;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -42,7 +38,7 @@ class AuthorizeTest extends TestCase
                 'module.enable' => ['authorize' => true],
             ],
             '[ARRAY]',
-            'simplesaml'
+            'simplesaml',
         );
 
         $state = [
@@ -67,7 +63,7 @@ class AuthorizeTest extends TestCase
         $request = Request::create(
             '/',
             'GET',
-            ['StateId' => $this->stateId]
+            ['StateId' => $this->stateId],
         );
         $session = Session::getSessionFromRequest();
 
