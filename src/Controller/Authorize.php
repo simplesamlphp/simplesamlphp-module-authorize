@@ -65,7 +65,7 @@ class Authorize
 
         if (isset($state['Source']['auth'])) {
             $t->data['LogoutURL'] = Module::getModuleURL(
-                'saml/sp/login/' . urlencode($state['Source']['auth'])
+                'core/logout/' . urlencode($state['Source']['auth']),
             );
         }
 
