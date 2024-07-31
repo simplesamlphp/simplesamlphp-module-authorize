@@ -34,7 +34,7 @@ class Authorize
      */
     public function __construct(
         protected Configuration $config,
-        protected Session $session
+        protected Session $session,
     ) {
     }
 
@@ -65,7 +65,7 @@ class Authorize
 
         if (isset($state['Source']['auth'])) {
             $t->data['LogoutURL'] = Module::getModuleURL(
-                'saml/sp/login/' . urlencode($state['Source']['auth'])
+                'saml/sp/login/' . urlencode($state['Source']['auth']),
             );
         }
 

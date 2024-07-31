@@ -41,7 +41,7 @@ class AuthorizeTest extends TestCase
                 'module.enable' => ['authorize' => true],
             ],
             '[ARRAY]',
-            'simplesaml'
+            'simplesaml',
         );
 
         $state = [
@@ -66,7 +66,7 @@ class AuthorizeTest extends TestCase
         $request = Request::create(
             '/',
             'GET',
-            ['StateId' => $this->stateId]
+            ['StateId' => $this->stateId],
         );
         $session = Session::getSessionFromRequest();
 

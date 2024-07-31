@@ -83,7 +83,7 @@ class AuthorizeTest extends TestCase
                         'user2@example.edu.wrong',
                         'prefixuser2@example.edu',
                     ],
-                ],,
+                ],
                 false,
             ],
         ];

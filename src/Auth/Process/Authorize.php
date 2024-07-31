@@ -109,18 +109,20 @@ class Authorize extends Auth\ProcessingFilter
                 $arrayUtils = new Utils\Arrays();
                 $values = $arrayUtils->arrayize($values);
             } elseif (!is_array($values)) {
-                throw new Exception(
-                    'Filter Authorize: Attribute values is neither string nor array: ' . var_export($attribute, true)
-                );
+                throw new Exception(sprintf(
+                    'Filter Authorize: Attribute values is neither string nor array: %s',
+                    var_export($attribute, true),
+                ));
             }
 
             foreach ($values as $value) {
                 if (!is_string($value)) {
-                    throw new Exception(
-                        'Filter Authorize: Each value should be a string for attribute: ' .
-                        var_export($attribute, true) . ' value: ' . var_export($value, true) .
-                        ' Config is: ' . var_export($config, true)
-                    );
+                    throw new Exception(sprintf(
+                        'Filter Authorize: Each value should be a string for attribute: %s value: %s config: %s',
+                        var_export($attribute, true),
+                        var_export($value, true),
+                        var_export($config, true),
+                    ));
                 }
             }
             $this->valid_attribute_values[$attribute] = $values;
