@@ -18,6 +18,6 @@ class TestableAuthorize extends Authorize
      */
     protected function unauthorized(array &$state): void
     {
-        $request['NOT_AUTHORIZED'] = true;
+        $state['NOT_AUTHORIZED'] = true;
     }
 }

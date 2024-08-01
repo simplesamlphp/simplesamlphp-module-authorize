@@ -130,6 +130,7 @@ class Authorize extends Auth\ProcessingFilter
         $authorize = $this->deny;
         $attributes = &$state['Attributes'];
         $ctx = [];
+
         // Store the rejection message array in the $state
         if (!empty($this->reject_msg)) {
             $state['authprocAuthorize_reject_msg'] = $this->reject_msg;
@@ -145,8 +146,9 @@ class Authorize extends Auth\ProcessingFilter
                         if ($this->regex) {
                             $matched = preg_match($pattern, $value);
                         } else {
-                            $matched = ($value == $pattern);
+                            $matched = ($value === $pattern);
                         }
+
                         if ($matched) {
                             $authorize = ($this->deny ? false : true);
                             array_push($ctx, $name);
