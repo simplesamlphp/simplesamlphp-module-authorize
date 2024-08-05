@@ -67,6 +67,12 @@ class Authorize extends Auth\ProcessingFilter
     protected array $valid_attribute_values = [];
 
     /**
+     * Flag to allow re-authentication when user is not authorized
+     * @var bool
+     */
+    protected bool $allow_reauthentication = false;
+
+    /**
      * Initialize this filter.
      * Validate configuration parameters.
      *
@@ -102,6 +108,11 @@ class Authorize extends Auth\ProcessingFilter
         if (isset($config['errorURL']) && is_bool($config['errorURL'])) {
             $this->errorURL = $config['errorURL'];
             unset($config['errorURL']);
+        }
+
+        if (isset($config['allow_reauthentication']) && is_bool($config['allow_reauthentication'])) {
+            $this->allow_reauthentication = $config['allow_reauthentication'];
+            unset($config['allow_reauthentication']);
         }
 
         foreach ($config as $attribute => $values) {
@@ -148,7 +159,7 @@ class Authorize extends Auth\ProcessingFilter
             $state['authprocAuthorize_reject_msg'] = $this->reject_msg;
         }
         $state['authprocAuthorize_errorURL'] = $this->errorURL;
-
+        $state['authprocAuthorize_allow_reauthentication'] = $this->allow_reauthentication;
         $arrayUtils = new Utils\Arrays();
         foreach ($this->valid_attribute_values as $name => $patterns) {
             if (array_key_exists($name, $attributes)) {

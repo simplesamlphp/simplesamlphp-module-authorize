@@ -25,3 +25,5 @@ msgstr ""
 "You don't have the needed privileges to access this application. Please "
 "contact the administrator if you find this to be incorrect."
 
+msgid "Change account?"
+msgstr "Change account?"
