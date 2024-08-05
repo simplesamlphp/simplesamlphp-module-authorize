@@ -19,7 +19,6 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @package SimpleSAML\Module\authorize
  */
-
 class Authorize
 {
     /**
@@ -69,6 +68,11 @@ class Authorize
             );
         }
 
+        $t->data['allow_reauthentication'] = $state['authprocAuthorize_allow_re_authenticate_on_unauthorized'] ?? false;
+        $stateId = Auth\State::saveState($state, 'authorize:Authorize');
+        $t->data['url_reauthentication'] =
+            Module::getModuleURL('authorize/error/reauthenticate', ['StateId' => $stateId]);
+
         if (
             isset($state['authprocAuthorize_errorURL'])
             && $state['authprocAuthorize_errorURL'] === true
@@ -93,5 +97,29 @@ class Authorize
 
         $t->setStatusCode(403);
         return $t;
+    }
+
+    public function reauthenticate(Request $request): void
+    {
+        $stateId = $request->query->get('StateId', false);
+        if (!is_string($stateId)) {
+            throw new Error\BadRequest('Missing required StateId query parameter.');
+        }
+        /** @var array $state */
+        $state = Auth\State::loadState($stateId, 'authorize:Authorize');
+
+        $authSource = $state['Source']['auth'];
+        if (empty($authSource)) {
+            throw new Error\BadRequest('Missing required auth source.');
+        }
+        $parameters = ['ForceAuthn' => true];
+
+        if (isset($state['\\SimpleSAML\\Auth\\State.restartURL'])) {
+            $returnToUrl = $state['\\SimpleSAML\\Auth\\State.restartURL'] ;
+            $parameters['ReturnTo'] = $returnToUrl;
+        }
+
+        $auth = new Auth\Simple($authSource);
+        $auth->login($parameters);
     }
 }
