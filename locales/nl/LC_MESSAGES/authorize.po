@@ -25,3 +25,5 @@ msgstr ""
 "U heeft niet genoeg rechten om deze applicatie te benaderen. Benader de "
 "beheerder als u denkt dat dit ten onrechte is."
 
+msgid "Change account?"
+msgstr "Verander account?"

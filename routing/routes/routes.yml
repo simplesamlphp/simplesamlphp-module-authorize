@@ -6,3 +6,9 @@ authorize-error-forbidden:
     _controller: 'SimpleSAML\Module\authorize\Controller\Authorize::forbidden'
   }
   methods: [GET]
+authorize-reauthenticate:
+  path: /error/reauthenticate
+  defaults: {
+    _controller: 'SimpleSAML\Module\authorize\Controller\Authorize::reauthenticate'
+  }
+  methods: [GET]
