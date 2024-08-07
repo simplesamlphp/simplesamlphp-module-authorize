@@ -27,3 +27,6 @@ msgstr ""
 
 msgid "Change account?"
 msgstr "Verander account?"
+
+msgid "You are currently logged in as"
+msgstr "Je bent ingelogd als"
