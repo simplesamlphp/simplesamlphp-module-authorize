@@ -67,6 +67,9 @@ class Authorize
                 'core/logout/' . urlencode($state['Source']['auth']),
             );
         }
+        if (isset($state['authprocAuthorize_user_attribute'])) {
+            $t->data['user_attribute'] = $state['authprocAuthorize_user_attribute'];
+        }
 
         $t->data['allow_reauthentication'] = $state['authprocAuthorize_allow_re_authenticate_on_unauthorized'] ?? false;
         $stateId = Auth\State::saveState($state, 'authorize:Authorize');

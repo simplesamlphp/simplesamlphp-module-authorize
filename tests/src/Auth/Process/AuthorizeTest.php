@@ -181,4 +181,63 @@ class AuthorizeTest extends TestCase
             [['group' => 'CN=wrongCN=SimpleSAML Students,CN=Users,DC=example,DC=edu'], false],
         ];
     }
+
+    /**
+     * Test that having a matching attribute prevents access
+     *
+     * @param array $userAttributes The attributes to test
+     * @param bool $isAuthorized Should the user be authorized
+     * @param string|null $shownUserAttribute The attribute to show
+     */
+    #[DataProvider('showUserAttributeScenarioProvider')]
+    public function testShowUserAttribute(
+        array $userAttributes,
+        bool $isAuthorized,
+        bool $isShowUserAttributeSet,
+        ?string $shownUserAttribute,
+    ): void {
+        $attributeUtils = new Utils\Attributes();
+        $userAttributes = $attributeUtils->normalizeAttributesArray($userAttributes);
+        $config = [
+            'regex' => false,
+            'uid' => [
+                'test',
+            ],
+            'show_user_attribute' => 'mail',
+        ];
+
+        $resultState = $this->processFilter($config, ['Attributes' => $userAttributes]);
+        $resultAuthorized = isset($resultState['NOT_AUTHORIZED']) ? false : true;
+
+        $this->assertEquals($isAuthorized, $resultAuthorized, 'Authorization behaviour does not match');
+        $isShownUserAttributeInState = isset($resultState['authprocAuthorize_user_attribute']);
+        $this->assertEquals(
+            $isShowUserAttributeSet,
+            $isShownUserAttributeInState,
+            'Attribute shown behaviour does not match',
+        );
+        if ($isShownUserAttributeInState) {
+            $isShownUserAttributeInState = $resultState['authprocAuthorize_user_attribute'];
+            $this->assertEquals($shownUserAttribute, $isShownUserAttributeInState);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public static function showUserAttributeScenarioProvider(): array
+    {
+        return [
+            // Should be allowed, and not shown
+            [['uid' => 'test'], true, false, null],
+            [['uid' => 'test', 'mail' => 'user@example.edu'], true, false, null],
+
+            // Should be denied, and not shown
+            [['uid' => 'anything@students.example.edu'], false, false, null],
+            [['uid' => 'anything@students.example.edu', 'mail' => []], false, false, null],
+
+            // Should be denied, and shown
+            [['uid' => 'stu3@example.edu', 'mail' => 'user@example.edu'], false, true, 'user@example.edu'],
+        ];
+    }
 }

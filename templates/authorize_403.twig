@@ -7,10 +7,13 @@
 {% else %}
   <p>{% trans %}You don't have the needed privileges to access this application. Please contact the administrator if you find this to be incorrect.{% endtrans %}</p>
 {% endif %}
+{% if user_attribute is defined %}
+ <p>{% trans %}You are currently logged in as{% endtrans %} {{ user_attribute }}</p>
+{% endif %}
 {% if allow_reauthentication is defined %}
   <p>
     <a href="{{ url_reauthentication }}">
-      <button class="pure-button">{% trans %}Re-authenticate{% endtrans %}</button>
+      <button class="pure-button pure-button-red">{% trans %}Re-authenticate{% endtrans %}</button>
     </a>
   </p>
 {% endif %}

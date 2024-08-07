@@ -27,3 +27,6 @@ msgstr ""
 
 msgid "Change account?"
 msgstr "Change account?"
+
+msgid "You are currently logged in as"
+msgstr "You are currently logged in as"
