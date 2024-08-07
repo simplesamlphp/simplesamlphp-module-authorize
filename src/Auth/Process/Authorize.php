@@ -73,6 +73,12 @@ class Authorize extends Auth\ProcessingFilter
     protected bool $allow_reauthentication = false;
 
     /**
+     * The attribute to show in the error page
+     * @var string|null
+     */
+    protected ?string $show_user_attribute = null;
+
+    /**
      * Initialize this filter.
      * Validate configuration parameters.
      *
@@ -113,6 +119,11 @@ class Authorize extends Auth\ProcessingFilter
         if (isset($config['allow_reauthentication']) && is_bool($config['allow_reauthentication'])) {
             $this->allow_reauthentication = $config['allow_reauthentication'];
             unset($config['allow_reauthentication']);
+        }
+
+        if (isset($config['show_user_attribute']) && is_string($config['show_user_attribute'])) {
+            $this->show_user_attribute = $config['show_user_attribute'];
+            unset($config['show_user_attribute']);
         }
 
         foreach ($config as $attribute => $values) {
@@ -183,6 +194,13 @@ class Authorize extends Auth\ProcessingFilter
         }
 
         if (!$authorize) {
+            if ($this->show_user_attribute !== null && array_key_exists($this->show_user_attribute, $attributes)) {
+                $userAttribute =  $attributes[$this->show_user_attribute][0] ?? null;
+                if ($userAttribute !== null) {
+                    $state['authprocAuthorize_user_attribute'] = $userAttribute;
+                }
+            }
+
             // Try to hint at which attributes may have failed as context for errorURL processing
             if ($this->deny) {
                 $state['authprocAuthorize_ctx'] = implode(' ', $ctx);
