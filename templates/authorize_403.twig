@@ -10,7 +10,7 @@
 {% if user_attribute is defined %}
  <p>{% trans %}You are currently logged in as{% endtrans %} {{ user_attribute }}</p>
 {% endif %}
-{% if allow_reauthentication is defined %}
+{% if allow_reauthentication is defined && allow_reauthentication%}
   <p>
     <a href="{{ url_reauthentication }}">
       <button class="pure-button pure-button-red">{% trans %}Change account?{% endtrans %}</button>
