@@ -217,7 +217,7 @@ jobs:
         with:
           # Should be the lowest supported version
           php-version: '8.1'
-          extensions: ctype, date, dom, fileinfo, filter, hash, intl, mbstring, openssl, pcre, posix, spl, xml
+          extensions: ctype, date, dom, fileinfo, filter, hash, intl, mbstring, openssl, pcre, posix, spl, xml, zip
           tools: composer
           coverage: none
 
