@@ -47,7 +47,7 @@ class Authorize extends Auth\ProcessingFilter
     /**
      * Array of localised rejection messages
      *
-     * @var array
+     * @var string[]
      */
     protected array $reject_msg = [];
 
@@ -60,9 +60,9 @@ class Authorize extends Auth\ProcessingFilter
 
     /**
      * Array of valid users. Each element is a regular expression. You should
-     * user \ to escape special chars, like '.' etc.
+     * use \ to escape special chars, like '.' etc.
      *
-     * @param array
+     * @var array<mixed>
      */
     protected array $valid_attribute_values = [];
 
@@ -82,7 +82,7 @@ class Authorize extends Auth\ProcessingFilter
      * Initialize this filter.
      * Validate configuration parameters.
      *
-     * @param array $config  Configuration information about this filter.
+     * @param array<mixed> $config  Configuration information about this filter.
      * @param mixed $reserved  For future use.
      */
     public function __construct(array $config, $reserved)
@@ -155,7 +155,7 @@ class Authorize extends Auth\ProcessingFilter
     /**
      * Apply filter to validate attributes.
      *
-     * @param array &$state  The current request
+     * @param array<mixed> &$state  The current request
      */
     public function process(array &$state): void
     {
@@ -225,7 +225,7 @@ class Authorize extends Auth\ProcessingFilter
      * thinking in case a "chained" ACL is needed, more complex
      * permission logic.
      *
-     * @param array $state
+     * @param array<mixed> $state
      */
     protected function unauthorized(array &$state): void
     {
