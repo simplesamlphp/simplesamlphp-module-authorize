@@ -155,4 +155,23 @@ Additionally, some helpful instructions are shown.
         ],
     ],
 ],
+
+You can restrict an attribute allowance to a list of Service Providers.
+
+```php
+'authproc.sp' => [
+    60 => array[
+        'class' => 'authorize:Authorize',
+        'uid'   =>  [
+            '/.*@students.example.edu$/',
+            '/^(stu1|stu2|stu3)@example.edu$/',
+            'spEntityIDs' => [
+                'https://example.com/sp1',
+                'https://example.com/sp2'
+            ]
+        ]
+    ]
+]
+```
+
 ```
