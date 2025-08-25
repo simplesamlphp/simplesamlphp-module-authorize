@@ -240,4 +240,123 @@ class AuthorizeTest extends TestCase
             [['uid' => 'stu3@example.edu', 'mail' => 'user@example.edu'], false, true, 'user@example.edu'],
         ];
     }
+
+    /**
+     * Test SP restriction functionality
+     *
+     * @param array $userAttributes The attributes to test
+     * @param string|null $spEntityId The SP Entity ID in the state
+     * @param bool $isAuthorized Should the user be authorized
+     */
+    #[DataProvider('spRestrictionScenarioProvider')]
+    public function testSpRestriction(array $userAttributes, ?string $spEntityId, bool $isAuthorized): void
+    {
+        $attributeUtils = new Utils\Attributes();
+        $userAttributes = $attributeUtils->normalizeAttributesArray($userAttributes);
+        $config = [
+            'uid' => [
+                '/.*@example.com$/',
+                'spEntityIDs' => [
+                    'https://sp1.example.com',
+                    'https://sp2.example.com',
+                ],
+            ],
+            'group' => [
+                '/^admins$/',
+                'spEntityIDs' => [
+                    'https://admin.example.com',
+                ],
+            ],
+        ];
+
+        $state = ['Attributes' => $userAttributes];
+        if ($spEntityId !== null) {
+            $state['saml:sp:State']['core:SP'] = $spEntityId;
+        }
+
+        $resultState = $this->processFilter($config, $state);
+        $resultAuthorized = isset($resultState['NOT_AUTHORIZED']) ? false : true;
+        $this->assertEquals($isAuthorized, $resultAuthorized);
+    }
+
+    /**
+     * @return array
+     */
+    public static function spRestrictionScenarioProvider(): array
+    {
+        return [
+            // Should be allowed - matching attribute and SP
+            [['uid' => 'user@example.com'], 'https://sp1.example.com', true],
+            [['uid' => 'user@example.com'], 'https://sp2.example.com', true],
+            [['group' => 'admins'], 'https://admin.example.com', true],
+
+            // Should be denied - matching attribute but wrong SP
+            [['uid' => 'user@example.com'], 'https://wrong.example.com', false],
+            [['group' => 'admins'], 'https://sp1.example.com', false],
+
+            // Should be denied - no SP specified but attribute would match
+            [['uid' => 'user@example.com'], null, false],
+            [['group' => 'admins'], null, false],
+
+            // Should be denied - wrong attribute regardless of SP
+            [['uid' => 'user@wrong.com'], 'https://sp1.example.com', false],
+            [['group' => 'users'], 'https://admin.example.com', false],
+        ];
+    }
+
+    /**
+     * Test mixed SP and non-SP rules
+     *
+     * @param array $userAttributes The attributes to test
+     * @param string|null $spEntityId The SP Entity ID in the state
+     * @param bool $isAuthorized Should the user be authorized
+     */
+    #[DataProvider('mixedRulesScenarioProvider')]
+    public function testMixedSpAndNonSpRules(array $userAttributes, ?string $spEntityId, bool $isAuthorized): void
+    {
+        $attributeUtils = new Utils\Attributes();
+        $userAttributes = $attributeUtils->normalizeAttributesArray($userAttributes);
+        $config = [
+            // Rule with SP restriction
+            'uid' => [
+                '/.*@restricted.com$/',
+                'spEntityIDs' => ['https://restricted.example.com'],
+            ],
+            // Rule without SP restriction (should work for all SPs)
+            'role' => [
+                '/^admin$/',
+                '/^superuser$/',
+            ],
+        ];
+
+        $state = ['Attributes' => $userAttributes];
+        if ($spEntityId !== null) {
+            $state['saml:sp:State']['core:SP'] = $spEntityId;
+        }
+
+        $resultState = $this->processFilter($config, $state);
+        $resultAuthorized = isset($resultState['NOT_AUTHORIZED']) ? false : true;
+        $this->assertEquals($isAuthorized, $resultAuthorized);
+    }
+
+    /**
+     * @return array
+     */
+    public static function mixedRulesScenarioProvider(): array
+    {
+        return [
+            // Should be allowed - role rule matches (no SP restriction)
+            [['role' => 'admin'], 'https://any.example.com', true],
+            [['role' => 'superuser'], null, true],
+
+            // Should be allowed - uid rule matches and SP is correct
+            [['uid' => 'user@restricted.com'], 'https://restricted.example.com', true],
+
+            // Should be denied - uid rule matches but SP is wrong
+            [['uid' => 'user@restricted.com'], 'https://other.example.com', false],
+
+            // Should be denied - no matching rules
+            [['uid' => 'user@other.com', 'role' => 'user'], 'https://any.example.com', false],
+        ];
+    }
 }
