@@ -28,8 +28,6 @@ class Authorize
      *
      * @param \SimpleSAML\Configuration              $config The configuration to use by the controllers.
      * @param \SimpleSAML\Session                    $session The session to use by the controllers.
-     *
-     * @throws \Exception
      */
     public function __construct(
         protected Configuration $config,
