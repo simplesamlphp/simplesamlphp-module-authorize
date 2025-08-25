@@ -155,6 +155,7 @@ Additionally, some helpful instructions are shown.
         ],
     ],
 ],
+```
 
 You can restrict an attribute allowance to a list of Service Providers.
 
@@ -172,6 +173,4 @@ You can restrict an attribute allowance to a list of Service Providers.
         ]
     ]
 ]
-```
-
 ```
