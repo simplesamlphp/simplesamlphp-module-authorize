@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @package SimpleSAML\Module\authorize
  */
-class Authorize
+final class Authorize
 {
     /**
      * Controller constructor.

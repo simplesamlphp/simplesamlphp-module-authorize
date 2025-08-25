@@ -28,7 +28,7 @@ use function var_export;
  * @package SimpleSAMLphp
  */
 
-class Authorize extends Auth\ProcessingFilter
+final class Authorize extends Auth\ProcessingFilter
 {
     /**
      * Flag to deny/unauthorize the user a attribute filter IS found
