@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace SimpleSAML\Module\authorize\Auth\Process;
 
-use SimpleSAML\Assert\Assert;
 use SimpleSAML\Auth;
 use SimpleSAML\Error;
 use SimpleSAML\Module;
+use SimpleSAML\SAML2\Assert\Assert;
 use SimpleSAML\Utils;
 
 use function array_diff;
@@ -141,12 +141,16 @@ class Authorize extends Auth\ProcessingFilter
             // Extract spEntityIDs if present
             $spEntityIDs = null;
             if (isset($values['spEntityIDs'])) {
-                if (!is_array($values['spEntityIDs'])) {
-                    throw new Error\Exception(sprintf(
+                Assert::isArray(
+                    $values['spEntityIDs'],
+                    sprintf(
                         'Filter Authorize: spEntityIDs must be an array for attribute: %s',
                         var_export($attribute, true),
-                    ));
-                }
+                    ),
+                    Error\Exception::class,
+                );
+                Assert::allValidEntityID($values['spEntityIDs']);
+
                 $spEntityIDs = $values['spEntityIDs'];
                 unset($values['spEntityIDs']);
             }

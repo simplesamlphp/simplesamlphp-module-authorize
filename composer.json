@@ -36,7 +36,7 @@
     },
     "require": {
         "php": "^8.1",
-        "simplesamlphp/assert": "^1.0",
+        "simplesamlphp/saml2": "~5.0.2",
         "simplesamlphp/simplesamlphp": "^2.1",
         "symfony/http-foundation": "^6.4"
     },
