@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace SimpleSAML\Module\authorize\Auth\Process;
 
-use Exception;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\Auth;
+use SimpleSAML\Error;
 use SimpleSAML\Module;
 use SimpleSAML\Utils;
 
@@ -132,7 +132,7 @@ class Authorize extends Auth\ProcessingFilter
                 $arrayUtils = new Utils\Arrays();
                 $values = $arrayUtils->arrayize($values);
             } elseif (!is_array($values)) {
-                throw new Exception(sprintf(
+                throw new Error\Exception(sprintf(
                     'Filter Authorize: Attribute values is neither string nor array: %s',
                     var_export($attribute, true),
                 ));
@@ -142,7 +142,7 @@ class Authorize extends Auth\ProcessingFilter
             $spEntityIDs = null;
             if (isset($values['spEntityIDs'])) {
                 if (!is_array($values['spEntityIDs'])) {
-                    throw new Exception(sprintf(
+                    throw new Error\Exception(sprintf(
                         'Filter Authorize: spEntityIDs must be an array for attribute: %s',
                         var_export($attribute, true),
                     ));
@@ -153,7 +153,7 @@ class Authorize extends Auth\ProcessingFilter
 
             foreach ($values as $value) {
                 if (!is_string($value)) {
-                    throw new Exception(sprintf(
+                    throw new Error\Exception(sprintf(
                         'Filter Authorize: Each value should be a string for attribute: %s value: %s config: %s',
                         var_export($attribute, true),
                         var_export($value, true),
