@@ -162,19 +162,10 @@ class Authorize extends Auth\ProcessingFilter
                 }
             }
 
-            // For backward compatibility, if no spEntityIDs were found,
-            // store the values directly in the old format
-            if ($spEntityIDs === null) {
-                $this->valid_attribute_values[$attribute] = [
-                    'values' => $values,
-                    'spEntityIDs' => null,
-                ];
-            } else {
-                $this->valid_attribute_values[$attribute] = [
-                    'values' => $values,
-                    'spEntityIDs' => $spEntityIDs,
-                ];
-            }
+            $this->valid_attribute_values[$attribute] = [
+                'values' => $values,
+                'spEntityIDs' => $spEntityIDs,
+            ];
         }
     }
 
