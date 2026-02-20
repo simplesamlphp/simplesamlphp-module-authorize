@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SimpleSAML\Module\authorize\Auth\Process;
 
-use SimpleSAML\Assert\Assert;
+use SimpleSAML\SAML2\Assert\Assert;
 use SimpleSAML\Auth;
 use SimpleSAML\Error;
 use SimpleSAML\Module;
