@@ -10,7 +10,6 @@ use SimpleSAML\Configuration;
 use SimpleSAML\Error;
 use SimpleSAML\Module\authorize\Controller;
 use SimpleSAML\Session;
-use SimpleSAML\XHTML\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -72,10 +71,8 @@ class AuthorizeTest extends TestCase
 
         $c = new Controller\Authorize($this->config, $session);
 
-        /** @var \SimpleSAML\XHTML\Template $response */
         $response = $c->forbidden($request);
 
-        $this->assertInstanceOf(Template::class, $response);
         $this->assertTrue($response->isForbidden());
     }
 

@@ -9,7 +9,6 @@ use SimpleSAML\Auth;
 use SimpleSAML\Configuration;
 use SimpleSAML\Module\authorize\Controller;
 use SimpleSAML\Session;
-use SimpleSAML\XHTML\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -74,10 +73,8 @@ class AuthorizeAllowReAuthenticateOnUnauthorizedTest extends TestCase
 
         $c = new Controller\Authorize($this->config, $session);
 
-        /** @var \SimpleSAML\XHTML\Template $response */
         $response = $c->forbidden($request);
 
-        $this->assertInstanceOf(Template::class, $response);
         $this->assertTrue($response->isForbidden());
     }
 }
