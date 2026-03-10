@@ -29,6 +29,7 @@ class AuthorizeTest extends TestCase
         return $request;
     }
 
+
     /**
      * Test that having a matching attribute grants access
      *
@@ -89,6 +90,7 @@ class AuthorizeTest extends TestCase
         ];
     }
 
+
     /**
      * Test that having a matching attribute prevents access
      *
@@ -141,6 +143,7 @@ class AuthorizeTest extends TestCase
         ];
     }
 
+
     /**
      * Test that having a matching attribute prevents access
      *
@@ -182,6 +185,7 @@ class AuthorizeTest extends TestCase
         ];
     }
 
+
     /**
      * Test that having a matching attribute prevents access
      *
@@ -222,6 +226,7 @@ class AuthorizeTest extends TestCase
         }
     }
 
+
     /**
      * @return array
      */
@@ -240,6 +245,7 @@ class AuthorizeTest extends TestCase
             [['uid' => 'stu3@example.edu', 'mail' => 'user@example.edu'], false, true, 'user@example.edu'],
         ];
     }
+
 
     /**
      * Test SP restriction functionality
@@ -279,6 +285,7 @@ class AuthorizeTest extends TestCase
         $this->assertEquals($isAuthorized, $resultAuthorized);
     }
 
+
     /**
      * @return array
      */
@@ -303,6 +310,7 @@ class AuthorizeTest extends TestCase
             [['group' => 'users'], 'https://admin.example.com', false],
         ];
     }
+
 
     /**
      * Test mixed SP and non-SP rules
@@ -338,6 +346,7 @@ class AuthorizeTest extends TestCase
         $resultAuthorized = isset($resultState['NOT_AUTHORIZED']) ? false : true;
         $this->assertEquals($isAuthorized, $resultAuthorized);
     }
+
 
     /**
      * @return array

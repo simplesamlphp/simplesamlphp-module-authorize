@@ -100,6 +100,7 @@ class Authorize
         return $t;
     }
 
+
     public function reauthenticate(Request $request): void
     {
         $stateId = $request->query->get('StateId', false);
